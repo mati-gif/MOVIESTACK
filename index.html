@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./assets/img/Moviestack_favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="./styles/styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>movieStack</title>
+</head>
+<body>
+    <header class="bg-gray-800  flex   justify-between h-20">
+        <div class="  flex gap-2 sm:gap-6 md:gap-10 w-full items-center justify-center md:justify-start ">
+          <img src="./assets/img/Moviestack_isotipo.png"  class="w-20  object-cover" alt="logo movieStack">
+          <img src="./assets/img/Moviestack_logotipo1.png" class="w-36  object-cover " alt="movieStack logotipo">
+        </div>
+        <nav class="flex   justify-center    py-3 gap-2 ">
+            <a href="#" class="border-2 border-white text-gray-300 p-1 hover:text-gray-500 h-10 text-center mr-3">Home</a>
+            <a href="./pages/movies.html" class=" border-2 border-gray-600 text-gray-300 p-1 h-10 hover:text-gray-500 text-center mr-3" >Movies</a>
+            <a href="./pages/favs.html" class="border-2 border-gray-600 text-gray-300 p-1 h-10 hover:text-gray-500 text-center mr-3">Favs</a>
+        </nav> 
+
+    </header>
+
+      <main class="flex flex-col items-center flex-grow bg-gray-200 h-lvh">
+        <div class="w-11/12 md:w-4/5 text-center my-4 flex flex-col items-center ">
+          <img src="./assets/img/descarga.jpg" alt="Imagen" class=" w-full md:w-7/12">
+          <p>Bienvenido a nuestra página de películas, el destino definitivo para todos los amantes del cine. Aquí encontrarás una vasta colección de películas de todos los géneros, desde los clásicos atemporales hasta los estrenos más recientes. Nuestra plataforma está diseñada para ofrecerte la mejor experiencia de visualización, con una interfaz intuitiva y fácil de usar que te permite explorar, descubrir y disfrutar de tus películas favoritas con solo unos pocos clics.</p>
+        </div>
+        <section class="w-11/12 md:w-4/5 text-center my-6">
+          <p>Nuestra biblioteca de películas está organizada en categorías cuidadosamente seleccionadas para ayudarte a encontrar exactamente lo que buscas. Ya sea que tengas ganas de una emocionante película de acción, una conmovedora historia de amor, un aterrador thriller de terror, o una divertida comedia familiar, tenemos algo para todos. Además, nuestras recomendaciones personalizadas te guiarán hacia nuevas y emocionantes películas basadas en tus preferencias y hábitos de visualización.</p>
+          <div class="flex flex-col md:flex-row justify-around mt-6 gap-4 md:gap-0">
+            <a href="./pages/movies.html" class="bg-blue-500 text-white px-4 py-2 rounded shadow-lg hover:bg-blue-700 transition duration-300">Call to Movies</a>
+            <a href="./pages/favs.html" class="bg-green-500 text-white px-4 py-2 rounded shadow-lg hover:bg-green-700 transition duration-300">Call to Favs</a>
+          </div>
+        </section>
+      </main>
+    
+
+
+    <footer class="flex items-center justify-center bg-gray-800 text-white py-4">
+        <h3>Mind-Hub Cohort N.55</h3>
+      </footer>
+      <script src="../js/datos.js"></script>
+      <script src="../js/main.js"></script>
+</body>
+</html>
