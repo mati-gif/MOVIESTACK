@@ -24,16 +24,29 @@ function createCards(title,imagen,tagline,overview){
 
 
 
+//forma 1 : usar el bucle for para recorrer todo el array de peliculas.
+// for(let i = 0; i < data.length ;i++ ){
 
-for(let i = 0; i < data.length ;i++ ){
 
+//     let respuesta = createCards(data[i].title,data[i].image,data[i].tagline,data[i].overview);
 
-    let respuesta = createCards(data[i].title,data[i].image,data[i].tagline,data[i].overview);
-
-    divCreado.innerHTML += respuesta;// estoy agregando al nuevo div lo que hay en la funcion createCards
+//     divCreado.innerHTML += respuesta;// estoy agregando al nuevo div lo que hay en la funcion createCards
     
 
+// }
+
+
+//forma2: crear una funcion que adentro tenga un forEach() que tambien va a recorrer el array de peliculas.
+
+function addCards(arrayPeliculas){
+    arrayPeliculas.forEach(item => {
+        let respuesta = createCards(item.title,item.image,item.tagline,item.overview);
+    
+            divCreado.innerHTML += respuesta
+    });
 }
+
+addCards(data);
 
 
 divCreado.classList.add("flex");
