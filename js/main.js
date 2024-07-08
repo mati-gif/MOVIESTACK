@@ -30,7 +30,8 @@ for(let i = 0; i < data.length ;i++ ){
 
     let respuesta = createCards(data[i].title,data[i].image,data[i].tagline,data[i].overview);
 
-    divCreado.innerHTML += respuesta;
+    divCreado.innerHTML += respuesta;// estoy agregando al nuevo div lo que hay en la funcion createCards
+    
 
 }
 
