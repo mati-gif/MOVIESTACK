@@ -36,14 +36,17 @@ function createCards(title,imagen,tagline,overview){
 // }
 
 
-//forma2: crear una funcion que adentro tenga un forEach() que tambien va a recorrer el array de peliculas.
+//forma2: crear una funcion que recibe un parametro (el array de peliculas) que adentro tenga un forEach() que tambien va a recorrer el array de peliculas y va a devolver la tarjeta solo con las propiedadess que le estoy pasando en el foreach .
 
 function addCards(arrayPeliculas){
     arrayPeliculas.forEach(item => {
         let respuesta = createCards(item.title,item.image,item.tagline,item.overview);
+    divCreado.innerHTML += respuesta
+
     
-            divCreado.innerHTML += respuesta
     });
+
+
 }
 
 addCards(data);
