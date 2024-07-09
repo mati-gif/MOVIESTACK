@@ -39,26 +39,107 @@ function createCards(title,imagen,tagline,overview){
 //forma2: crear una funcion que recibe un parametro (el array de peliculas) que adentro tenga un forEach() que tambien va a recorrer el array de peliculas y va a devolver la tarjeta solo con las propiedadess que le estoy pasando en el foreach .
 
 function addCards(arrayPeliculas){
+    let respuesta = "" ;
     arrayPeliculas.forEach(item => {
-        let respuesta = createCards(item.title,item.image,item.tagline,item.overview);
-    divCreado.innerHTML += respuesta
+        respuesta += createCards(item.title,item.image,item.tagline,item.overview);
 
     
+
+    
+
     });
 
+    divCreado.innerHTML = respuesta;
 
 }
 
 addCards(data);
 
 
-divCreado.classList.add("flex");
-divCreado.classList.add("justify-center");
-divCreado.classList.add("flex-wrap");
+divCreado.classList.add("flex","justify-center","flex-wrap")
+
 console.log(divCreado);
 
+//---creando los option y los imput---//
+
+let containerDiv = document.querySelector(".container_div");
+console.log(containerDiv);
+let selectOption = document.createElement("select");
+selectOption.classList.add("select");
+console.log(selectOption);
+containerDiv.appendChild(selectOption);
+console.log(containerDiv);
 
 
+
+
+let capturarGeneros  = data.map((genero)=>{
+    let generosCapturados = genero.genres
+    return  generosCapturados
+} );
+
+
+let allGenres = [];
+
+capturarGeneros.forEach(item => {
+
+    allGenres = allGenres.concat(item);
+})
+
+console.log(allGenres);
+
+
+let eliminarDuplicados = [];
+
+allGenres.forEach(genre =>{
+    if(!eliminarDuplicados.includes(genre)){
+
+
+        eliminarDuplicados.push(genre)
+    }
+
+});
+
+console.log(eliminarDuplicados);
+
+// console.log(new Set (capturarGeneros.flat())); //el metodo flat() une todos los arrays en uno solo, mientras que el metodo newSet no perimite elementos repeidos dentro de un array.
+
+
+
+
+
+//forma1:
+// function createOptions(genero,valor){
+
+// let option = `
+//  <option value =${valor} >${genero}</option>
+
+// `
+// return option
+
+// }
+
+
+
+
+
+
+//forma 2:
+
+function createOptions(genero) {
+    let select = document.querySelector(".select");
+
+    select.innerHTML = ''; //elimina todas las opciones existentes antes de agregar las nuevas, asegurando que no haya opciones duplicadas ni acumulación innecesaria de opciones.
+
+    genero.forEach((genre, numero) => {
+        let option = document.createElement('option');
+        option.value = numero;
+        option.innerHTML = genre;
+        select.appendChild(option);
+    });
+}
+
+createOptions(eliminarDuplicados);
 
 
 
