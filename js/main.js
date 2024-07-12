@@ -3,10 +3,10 @@
 let divCreado = document.getElementById("container_card");
 
 
-function createCards(title,image,tagline,overview){
+function createCards(id,title,image,tagline,overview){
 
     let card = `
-    <div class=" border-black border-2 m-5 h-auto flex flex-col items-center justify-beetwen w-80 text-center bg-violet-200  sm: w-4/6 h-5/6">
+    <a href="./detail.html?id=${id}"><div class=" border-black border-2 m-5 h-auto flex flex-col items-center justify-beetwen w-80 text-center bg-violet-200  sm: w-4/6 h-5/6">
     <img src =${image} class="h-40 w-80 object-cover  sm: w-60 h-28"  alt = ${title}/>
     <h4 class=" font-bold">${title}</h4>
     <p class="p-2 text-xs font-bolder sm: p-1">
@@ -15,7 +15,7 @@ function createCards(title,image,tagline,overview){
     <p class="p-3 text-xs font-bolder sm: p-1">
     ${overview}
     </p>
-    </div>
+    </div></a>
     `
 
     return card;
@@ -45,7 +45,7 @@ function addCards(arrayPeliculas){
 
     let respuesta = "" ;
     arrayPeliculas.forEach(item => {
-        respuesta += createCards(item.title,item.image,item.tagline,item.overview);
+        respuesta += createCards(item.id,item.title,item.image,item.tagline,item.overview);
 
     
 
@@ -173,45 +173,6 @@ createOptions(eliminarDuplicados);
 
 
 
-// let divCread = document.querySelector(".container_div");
-
-
-// function callBackEventSelect(evento){
-
-//     let select = evento.target.value;
-//     console.log(select);
-
-
-
-//     let inputValue = document.getElementById("input-text").value
-//     console.log(inputValue);
-
-
-
-
-//     let filterMovies = data.filter(movie => movie.genres.includes(select));
-
-
-//         if(inputValue !== ""){
-//             filterMovies.filter(movie => movie.genres === select)
-//             .filter(movie => movie.title.includes(inputValue))
-
-
-//             console.log(filterMovies);
-
-//     }
-
-//     addCards(filterMovies);
-
-//     console.log(filterMovies);
-
-//     return filterMovies;
-// }
-
-
-
-
-
 //--CREANDO LA CALLBACK DEL SELECT =====> OPTION <====== //
 let callBackEventSelect = (evento) =>{
 
@@ -268,23 +229,7 @@ buscarPelis.addEventListener("input",callBackEventInput);
 
     function filtrarPeliculasPorGenero(select,array) {
 
-        // let select = evento.target.value;
 
-    // let select = document.querySelector(".select").value.toLowerCase();
-        // console.log(select);
-    // let inputValue = document.getElementById("input-text").value.toLowerCase();
-    // console.log(inputValue);
-
-    // let filterMovies = data.filter(movie => 
-    //     movie.genres.some(genre => genre.toLowerCase().includes(select)) &&
-    //     movie.title.toLowerCase().includes(inputValue));
-
-    // if (inputValue !== "") {
-    //     filterMovies = data.filter(movie => movie.title.toLowerCase().includes(select));
-    // }
-
-
-    // console.log(filterMovies);
     if (select === "genero" || select === "") {
         return array;
     }
@@ -295,7 +240,6 @@ buscarPelis.addEventListener("input",callBackEventInput);
         return movie.genres.includes(select)
     
     });
-    // addCards(filterMovies);
 
 
     return filterMovies;
@@ -311,8 +255,7 @@ buscarPelis.addEventListener("input",callBackEventInput);
 //-----------------------
 
 function filtrarPeliculasPorNombre(nombre,array) {
-    // let input = nombre.target.value.toLowerCase();
-    // console.log(input);
+    
 
 
     if (nombre === "") {
@@ -326,55 +269,7 @@ function filtrarPeliculasPorNombre(nombre,array) {
 
 
 
-    // let selectInput = document.querySelector("select").value;
-    // console.log(selectInput);
 
-    // let movieContainer = document.getElementById("container_card");
-    // movieContainer.innerHTML = "";
-
-    // if (filterSearch.length > 0) {
-    // //     if (selectInput !== "genero" && selectInput !== "") {
-    // //         let filtroCruzado = filterSearch.filter(movie => movie.genres.includes(selectInput));
-    // //         console.log(filtroCruzado);
-    // //         addCards(filtroCruzado);
-    // //     } else {
-    //     return filterSearch;
-    // //         console.log("entro en en el else");
-    // //     }
-    // } else {
-    //     let parrafo = document.createElement("p");
-    //     parrafo.textContent = "película no encontrada";
-    //     movieContainer.appendChild(parrafo);
-    //     console.log("entro en en el else del if principal");
-
-    // }
-    // if(filterSearch.length === ""){
-    //     let parrafo = document.createElement("p");
-    //     parrafo.textContent = "película no encontrada";
-    //     movieContainer.appendChild(parrafo);
-    //     console.log("entro en en el else del if principal");
-    //     return addCards(parrafo)
-    // } else{
-
-
-    //         addCards(filterSearch);
-
-    // }
-
-//       if (filterSearch.length === 0) {
-//     let messageElement = document.getElementById("message");
-//     if (!messageElement) {
-//         messageElement = document.createElement("p");
-//         messageElement.id = "message";
-//         messageElement.textContent = "no se encuentra la película buscada";
-//         document.body.appendChild(messageElement);
-//     }
-// } else {
-//     let messageElement = document.getElementById("message");
-//     if (messageElement) {
-//         messageElement.remove();
-//     }
-// // }
 
     return filterSearch;
 
@@ -383,13 +278,13 @@ function filtrarPeliculasPorNombre(nombre,array) {
 
     function mostrarMensajeSiNoHayPeliculas(movies) {
         let movieContainer = document.getElementById("container_card");
-        // let mensajeExistente = document.getElementById("mensaje_no_encontrado");
-        // console.log(mensajeExistente);
-        // if (mensajeExistente) {
-        //     mensajeExistente.remove();
-        // }
+        let mensajeExistente = document.getElementById("mensaje_no_encontrado");
+        console.log(mensajeExistente);
+        if (mensajeExistente) {
+            mensajeExistente.remove();
+        }
     
-        if (movies.length === "") {
+        if (movies.length === 0) {
             let parrafo = document.createElement("p");
             console.log(parrafo);
             parrafo.id = "mensaje_no_encontrado";
@@ -404,39 +299,6 @@ function filtrarPeliculasPorNombre(nombre,array) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const aplicarFiltros = () => {
-//     const selectedGenre = selectOption.value;
-//     const searchTerm = inputText.value.toLowerCase();
-  
-//     const peliculasFiltradas = data.filter((movie) => {
-//       const matchesGenre =  movie.genres.includes(selectedGenre);
-//       const matchesSearchTerm = movie.title.toLowerCase().includes(searchTerm);
-//       console.log(matchesGenre, matchesSearchTerm);
-//       return matchesGenre && matchesSearchTerm;
-
-//     });
-//     console.log(peliculasFiltradas);
-    
-//     divCreado.innerHTML =  createCards(peliculasFiltradas);
-
-//   };
 
 
 
