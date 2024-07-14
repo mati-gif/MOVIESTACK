@@ -6,7 +6,7 @@ let divCreado = document.getElementById("container_card");
 function createCards(id,title,image,tagline,overview){
 
     let card = `
-    <a href="./detail.html?id=${id}"><div class=" border-black border-2 m-5 h-auto flex flex-col items-center justify-beetwen w-80 text-center bg-violet-200  sm: w-4/6 h-5/6">
+    <a href="./detail.html?id=${id}" class="border-black border-2 m-5 h-auto flex flex-col items-center justify-beetwen w-80 text-center bg-violet-200  sm: w-4/6 h-5/6" ><div class="">
     <img src =${image} class="h-40 w-80 object-cover  sm: w-60 h-28"  alt = ${title}/>
     <h4 class=" font-bold">${title}</h4>
     <p class="p-2 text-xs font-bolder sm: p-1">
@@ -88,6 +88,8 @@ inputText.classList.add("ml-20")
 label.appendChild(inputText);
 
 console.log(containerDiv);
+
+
 
 let capturarGeneros  = data.map((genero)=>{
     let generosCapturados = genero.genres
@@ -174,13 +176,15 @@ createOptions(eliminarDuplicados);
 
 
 //--CREANDO LA CALLBACK DEL SELECT =====> OPTION <====== //
+
+//esta funcion se ejecuta cuando se seleciiona un genero en el select. Se ejecuta en respuesta a un evento y utiliza la funcion filtrarPeliculasPorGenero para filtrar las peliculas por el genero seleccionado.
 let callBackEventSelect = (evento) =>{
 
-    let select = evento.target.value;
+    let select = evento.target.value; // obtiene el valor del genero seleccionado.
     console.log(select);
-    let arrayFiltrado = data;
-    let arrayFiltradoPorGenero = filtrarPeliculasPorGenero(select,arrayFiltrado);
-    let arrayFiltradoPorNombre = filtrarPeliculasPorNombre(buscarPelis.value,arrayFiltradoPorGenero)
+    let arrayFiltrado = data; // inicializa el array filtrado con todos los datos de las peliculas.
+    let arrayFiltradoPorGenero = filtrarPeliculasPorGenero(select,arrayFiltrado); //filtra las peliculas por el genero seleccionado.
+    let arrayFiltradoPorNombre = filtrarPeliculasPorNombre(buscarPelis.value,arrayFiltradoPorGenero);  // Filtra las películas filtradas por género según el nombre de la película 
     addCards(arrayFiltradoPorNombre);
     mostrarMensajeSiNoHayPeliculas(arrayFiltradoPorNombre);
 
@@ -190,13 +194,16 @@ let callBackEventSelect = (evento) =>{
 
 //--CREANDO LA CALLBACK DEL INPUT =====> EL USUARIO INGRESA EL NOMBRE DE LA PELI <====== //
 
+
+
+// La función callBackEventInput se ejecuta cuando se escribe algo en el input.
 let callBackEventInput = (evento) =>{
 
-    let input = evento.target.value.toLowerCase();
+    let input = evento.target.value.toLowerCase();// Obtiene el valor del input y lo convierte a minúsculas
     console.log(input);
     let arrayFiltrado = data;
-    let arrayFiltradoPorNombre = filtrarPeliculasPorNombre(input,arrayFiltrado);
-    let arrayFiltradoPorGenero = filtrarPeliculasPorGenero(selectOpciones.value,arrayFiltradoPorNombre)
+    let arrayFiltradoPorNombre = filtrarPeliculasPorNombre(input,arrayFiltrado);// Filtra las películas por el nombre ingresado
+    let arrayFiltradoPorGenero = filtrarPeliculasPorGenero(selectOpciones.value,arrayFiltradoPorNombre); // Filtra las películas filtradas por nombre según el género seleccionado
     addCards(arrayFiltradoPorGenero);
     mostrarMensajeSiNoHayPeliculas(arrayFiltradoPorGenero);
     // filtrarPeliculasPorNombre(input);
@@ -226,10 +233,10 @@ buscarPelis.addEventListener("input",callBackEventInput);
 
 //------CREANDO EL EVENTO ( SELECT =>  OPTIONS ) PARA QUE CUANDO SE HAGA CLICK EN UN GENERO APAREZCAN LAS PELICULAS QUE TIENEN ESE GENERO ----//.
 
-
+//esta funcion lp que hacw es  filtrar un array  de películas según el género seleccionado y devuelve las películas que coinciden con ese género.
     function filtrarPeliculasPorGenero(select,array) {
 
-
+//si el valor del select es genero , indica que no se ha seleccionado ningun genero en especifico y la funcion devuelve el array de peliculas 
     if (select === "genero" || select === "") {
         return array;
     }
@@ -254,11 +261,13 @@ buscarPelis.addEventListener("input",callBackEventInput);
 //------CREANDO EL EVENTO (  ===> INPUT <===  ) PARA QUE CUANDO ESCRIBA EL TITULO DE LA PELICULA APAREZCA LA PELI CON ESE NOMBRE.----//.
 //-----------------------
 
+
+// esta funcion  filtra un array de peliculas según un nombre que se ingreso. Si no se infresa ningún nombre , devuelve la lista completa de películas. Si se ingresa un nombre, devuelve una lista de películas cuyos títulos contienen el nombre buscado.
 function filtrarPeliculasPorNombre(nombre,array) {
     
 
 
-    if (nombre === "") {
+    if (nombre === "") { // si nombre es un string vacio (lo que significa que no se ingresó un nombre para buscar), la función devuelve una array de peliculas..
         return array;
     } 
         let filterSearch = array.filter((movie) => {
