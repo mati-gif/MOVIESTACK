@@ -1,21 +1,21 @@
-const urlParams = new URLSearchParams(window.location.search); //URLSearchParams es una interfaz que permite trabajar con los parámetros de búsqueda de una URL. windowsLocationSearch devuelve todo lo que sigue despues del "?".
+const urlParams = new URLSearchParams(window.location.search); //URLSearchParams es una interfaz que permite trabajar con los parámetros de búsqueda de una URL. windowsLocationSearch es la cadena de consulta de la url acytual, devuelve todo lo que sigue despues del "?".
     const movieId = urlParams.get('id');// con el metodo get se obtiene el valor del parametro especificado osea el id.
 
     console.log(movieId);
 
 
-function peliculaFiltrada(movieId){
+function peliculaFiltrada(movieId){//este parametro es un identificador  que se espera que coincida con el campo id de uno de los objetos en el array data
 
-    let peliculaDetalle = data.filter(item => item.id === movieId) ;
-    createDetailsCard(peliculaDetalle[0])// peliculaDetalle es un array que contiene solo un objeto.le pasa como argumento el primer elemento del arrya pelicula detalle.
+    let peliculaDetalle = data.find(item => item.id === movieId) ;// el metodo find me trae el primer objeto que cumpla con la condicion.Recorre todas las peliculas comparando con el id que traigo por el urlSearchParams.
+    createDetailsCard(peliculaDetalle);// peliculaDetalle es un array que contiene solo un objeto.le pasa como argumento el primer elemento del arrya pelicula detalle.
     console.log(peliculaDetalle);
-
+	
 }
 
 peliculaFiltrada(movieId);
 
 
-function createDetailsCard(peliculaDetalle){
+function createDetailsCard(peliculaDetalle){//este paraemtro es un objeto que contiene el detalle de las peliculas.
     let contenedorDetalle = document.getElementById("detail_container");
     
 

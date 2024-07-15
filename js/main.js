@@ -83,42 +83,51 @@ let inputText = document.createElement("input");
 inputText.type = "text";
 inputText.id = "input-text";
 inputText.value = "";
-inputText.placeholder = "search"
-inputText.classList.add("ml-20")
+inputText.placeholder = "search";
+inputText.classList.add("ml-20");
 label.appendChild(inputText);
 
 console.log(containerDiv);
 
 
 
-let capturarGeneros  = data.map((genero)=>{
-    let generosCapturados = genero.genres
-    return  generosCapturados
-} );
+// let capturarGeneros  = data.map((genero)=>{ // devuelve un array que adentro tiene arrays con los generos de cada pelicula.
+//     let generosCapturados = genero.genres
+//     return  generosCapturados
+// } );
+
+// console.log(capturarGeneros);
+// let allGenres = []; 
+
+// capturarGeneros.forEach(item => {
+
+//     allGenres = allGenres.concat(item); // es concatenar todo en un solo array. 
+// })
+
+// console.log(allGenres);
 
 
-let allGenres = [];
+// let eliminarDuplicados = []; 
 
-capturarGeneros.forEach(item => {
-
-    allGenres = allGenres.concat(item);
-})
-
-console.log(allGenres);
+// allGenres.forEach(genre =>{ //si en el array vacio no tengo el genero , lo mete . si eliminar duplicados no inlcuye le genero , le pusheo el genero. Si ya lo incluye no se lo pusheo porque ya lo tiene lo que hace que obtenga un array sin duplicar elementos.
+//     if(!eliminarDuplicados.includes(genre)){
 
 
-let eliminarDuplicados = [];
+//         eliminarDuplicados.push(genre)
+//     }
 
-allGenres.forEach(genre =>{
-    if(!eliminarDuplicados.includes(genre)){
+// });
+
+// console.log(eliminarDuplicados);
 
 
-        eliminarDuplicados.push(genre)
-    }
+let capturarGeneros = data.flatMap(genero => genero.genres); // el metodo map devuelve un nuevo array grande de generos que adentro tiene  arrays que muestra los generos por cada pelicula. Y lo que hace el flat es unir todo en un solo array grande quitandole el corchete a los array pequeños.
 
-});
-
+console.log(capturarGeneros);
+let eliminarDuplicados = [...new Set(capturarGeneros)];// lo que hace etsa funcion es que no permite elementos duplicados , me trae un nuevo array con los generos que no se repiten. El newSet crea un conjunto de valores a partir del array capturarGeneros.
 console.log(eliminarDuplicados);
+// los tres puntos descompone del array capturarGeneros todos los generos y con el newSet trae un objeto y  le saca los duplicados .
+
 
 // console.log(new Set (capturarGeneros.flat())); //el metodo flat() une todos los arrays en uno solo, mientras que el metodo newSet no perimite elementos repeidos dentro de un array.
 
@@ -180,10 +189,10 @@ createOptions(eliminarDuplicados);
 //esta funcion se ejecuta cuando se seleciiona un genero en el select. Se ejecuta en respuesta a un evento y utiliza la funcion filtrarPeliculasPorGenero para filtrar las peliculas por el genero seleccionado.
 let callBackEventSelect = (evento) =>{
 
-    let select = evento.target.value; // obtiene el valor del genero seleccionado.
-    console.log(select);
+    // let select = evento.target.value; // obtiene el valor del genero seleccionado.
+    // console.log(select);
     let arrayFiltrado = data; // inicializa el array filtrado con todos los datos de las peliculas.
-    let arrayFiltradoPorGenero = filtrarPeliculasPorGenero(select,arrayFiltrado); //filtra las peliculas por el genero seleccionado.
+    let arrayFiltradoPorGenero = filtrarPeliculasPorGenero(selectOption.value,arrayFiltrado); //filtra las peliculas por el genero seleccionado.
     let arrayFiltradoPorNombre = filtrarPeliculasPorNombre(buscarPelis.value,arrayFiltradoPorGenero);  // Filtra las películas filtradas por género según el nombre de la película 
     addCards(arrayFiltradoPorNombre);
     mostrarMensajeSiNoHayPeliculas(arrayFiltradoPorNombre);
@@ -196,19 +205,18 @@ let callBackEventSelect = (evento) =>{
 
 
 
-// La función callBackEventInput se ejecuta cuando se escribe algo en el input.
-let callBackEventInput = (evento) =>{
+// La función callBackEventInput se ejecuta cuando se escribe algo en el input.(    no prestarle atencion a etsa funcion, uni esta funcion con la de arriba y el filtrocruzado se hace igual)
+// let callBackEventInput = (evento) =>{
+//     // let input = evento.target.value.toLowerCase();// Obtiene el valor del input y lo convierte a minúsculas
+//     // console.log(input);
+//     let arrayFiltrado = data; // inicializa el array filtrado con todos los datos de las peliculas.
+//     let arrayFiltradoPorNombre = filtrarPeliculasPorNombre(inputText.value.toLowerCase(),arrayFiltrado);// Filtra las películas por el nombre ingresado
+//     let arrayFiltradoPorGenero = filtrarPeliculasPorGenero(selectOpciones.value,arrayFiltradoPorNombre); // Filtra las películas filtradas por nombre según el género seleccionado
+//     addCards(arrayFiltradoPorGenero);
+//     mostrarMensajeSiNoHayPeliculas(arrayFiltradoPorGenero);
+//     // filtrarPeliculasPorNombre(input);
 
-    let input = evento.target.value.toLowerCase();// Obtiene el valor del input y lo convierte a minúsculas
-    console.log(input);
-    let arrayFiltrado = data;
-    let arrayFiltradoPorNombre = filtrarPeliculasPorNombre(input,arrayFiltrado);// Filtra las películas por el nombre ingresado
-    let arrayFiltradoPorGenero = filtrarPeliculasPorGenero(selectOpciones.value,arrayFiltradoPorNombre); // Filtra las películas filtradas por nombre según el género seleccionado
-    addCards(arrayFiltradoPorGenero);
-    mostrarMensajeSiNoHayPeliculas(arrayFiltradoPorGenero);
-    // filtrarPeliculasPorNombre(input);
-
-}
+// }
 
 
 
@@ -219,7 +227,7 @@ selectOpciones.addEventListener("input",callBackEventSelect);
 
 
 let buscarPelis = document.getElementById("input-text");
-buscarPelis.addEventListener("input",callBackEventInput);
+buscarPelis.addEventListener("input",callBackEventSelect);
 
 
 
@@ -237,7 +245,7 @@ buscarPelis.addEventListener("input",callBackEventInput);
     function filtrarPeliculasPorGenero(select,array) {
 
 //si el valor del select es genero , indica que no se ha seleccionado ningun genero en especifico y la funcion devuelve el array de peliculas 
-    if (select === "genero" || select === "") {
+    if (select === "genero" ) {                //  || select === "" (no prestarle atencion)
         return array;
     }
 
