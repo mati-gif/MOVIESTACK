@@ -258,6 +258,8 @@ function armarSelect(arrayPeliculas){//arrayPeliculas seria data.movies pero com
 
 }
 
+console.log("comentario sprint 3");
+
 
 
 // let capturarGeneros = data.flatMap(genero => genero.genres); // el metodo map devuelve un nuevo array grande de generos que adentro tiene  arrays que muestra los generos por cada pelicula. Y lo que hace el flat es unir todo en un solo array grande quitandole el corchete a los array pequeños.
