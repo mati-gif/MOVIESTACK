@@ -54,14 +54,14 @@ contenedorDetalle.innerHTML += card;
 function crearTabla(contenedorDetalle,peliculaDetalle){
 
 
-let tablas  =  `<div class=" m-auto border-black border-2 mt-5 mb-10  flex flex-col  w-2/4   "> 
+let tablas  =  `<div class=" m-auto border-black border-2 mt-5  mb-10   flex flex-col  w-2/4   "> 
 
-    <h1 class=" font-bold text-3xl m-5">${peliculaDetalle.title}</h1>
-    <h2 class=" font-bold text-xl m-5 ">${peliculaDetalle.tagline}</h2>
-    <h3 class=" font-bold text-xl m-5">${peliculaDetalle.genres}</h3>
-    <p class=" font-bold text-xl m-5">${peliculaDetalle.overview}</p> 
+    <h1 class=" font-bold text-3xl m-5 ">${peliculaDetalle.title}</h1>
+    <h2 class=" font-bold text-xl m-2 ">${peliculaDetalle.tagline}</h2>
+    <h3 class=" font-bold text-xl m-2">${peliculaDetalle.genres}</h3>
+    <p class=" font-bold text-xl ">${peliculaDetalle.overview}</p> 
 
-   <table class=" w-96 h-40 bg-white m-auto border-2 border-gray-200 rounded-lg shadow-md" >
+	<table class=" w-96 h-40 bg-white m-auto border-2 border-gray-200 rounded-lg shadow-md" >
 	<tbody>
 		
 		<tr class="border-2 border-black bg-green-200">
