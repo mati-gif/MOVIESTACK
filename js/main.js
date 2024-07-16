@@ -62,19 +62,7 @@ const API_KEY = '0ff70d54-dc0b-4262-9c3d-776cb0f34dbd';
 
 
 function createCards(peliculas) {
-    // let card = `
-    // <div class=" border-black border-2  m-5 h-auto flex flex-col items-center justify-beetwen w-80 text-center bg-violet-200  sm: w-4/6 h-5/6">
-    //     <a href="./detail.html?id=${id}" <img src="https://moviestack.onrender.com/static/${peliculas.image}" class="h-40 w-80 object-cover  sm: w-60 h-28" alt="${peliculas.title}" />
-    //         <h4 class="font-bold">${peliculas.title}</h4>
-    //         <p class="p-2 text-xs font-bold sm:p-1">${peliculas.tagline}</p>
-    //         <p class="p-3 text-xs font-bold sm:p-1">${peliculas.overview}</p>
-    //     </a>
-    //     <div class="flex justify-center bg-green-200 w-14 border-black border-[3px] mt-auto hover:bg-gray-800 hover:border-black hover:border-2 hover:text-gray-50 active:bg-gray-800 active:text-gray-50">
-    //         <button id="button" class="text-4xl">♡</button>
-    //     </div>
-    // </div>
-    // `;
-    // return card;
+
 
     let card = `
         <div class=" border-black border-2  m-5 h-auto flex flex-col items-center justify-beetwen w-80 text-center bg-violet-200  sm: w-4/6 h-5/6">
@@ -96,45 +84,70 @@ function createCards(peliculas) {
     
         `
     
+
+
         return card;
-
-
-
-
-
-
-
-
-
-
 
 
 }
 
 
-let allMovies;//en esta variable vacia se le va a asignar el array que viene del fetch()
+// function callBackFavorite(idMovie){
+// console.log(idMovie);
 
 
-fetch('https://moviestack.onrender.com/api/movies', {
-    method: 'GET',
-    headers: {
-        'x-api-key': '0ff70d54-dc0b-4262-9c3d-776cb0f34dbd'
-    }
-})
-.then(response => response.json())
-.then(data => { // asigna data.movies a allMovies
-    console.log(data.movies);
-    allMovies = data.movies
-    armarSelect(data.movies);
-    addCards(data.movies);
-})
-.catch(error => console.warn(error))
-.finally(() => {
-    console.log("finally is here");
-});
+// }
+
+
+// let botonLike = document.getElementById("button");
+// console.log(botonLike);
+// botonLike.addEventListener("click",callBackFavorite);
 
 
 
+
+// function handleLike(peliculaDetalle) {
+//     console.log(`Película ${peliculaDetalle.title} ha sido likeada!`);
+//     // Aquí puedes añadir lógica para incrementar un contador de likes, almacenar en el backend, etc.
+// }
+
+let allMovies;
+
+// Función para obtener las películas desde la API
+ function fetchMovies() {
+    return  fetch('https://moviestack.onrender.com/api/movies', {
+        method: 'GET',
+        headers: {
+            'x-api-key': '0ff70d54-dc0b-4262-9c3d-776cb0f34dbd'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        allMovies = data.movies; // Asigna data.movies a la variable global allMovies
+        armarSelect(data.movies); // Ejemplo de función que utiliza allMovies
+        addCards(data.movies); // Ejemplo de función que utiliza allMovies
+        return allMovies; // Retorna el array de películas
+    })
+    .catch(error => {
+        console.warn(error); // Manejo de errores
+        return []; // Retorna un array vacío en caso de error
+    });
+}
+
+// Llamada a fetchMovies para obtener las películas al cargar el script
+fetchMovies();
+
+
+
+
+
+
+
+function allMoviesExport(){
+
+    console.log("holaaaaaa desde allmovies ");
+    // return allMovies
+}
 
 
 
@@ -192,34 +205,45 @@ function addCards(arrayPeliculas) {
 
 
 // addCards(data);
-
+console.log(divCreado);
+if(divCreado !== null){
 
 divCreado.classList.add("flex","justify-center","flex-wrap")       
-
 console.log(divCreado);
+
+}
+
 
 //---creando los option y los imput---//
 
 let containerDiv = document.querySelector(".container_div");
-containerDiv.classList.add("flex","justify-center");
-// containerDiv.innerHTML = "<label> Filtrar:</label>"
 let label = document.getElementById("label");
-let selectOption = document.createElement("select");
-selectOption.classList.add("select");
-console.log(selectOption);
-label.appendChild(selectOption);
-console.log(containerDiv);
+// containerDiv.classList.add("flex","justify-center");
+// containerDiv.innerHTML = "<label> Filtrar:</label>"
+
+if(containerDiv && label){
+
+    let selectOption = document.createElement("select");
+    selectOption.classList.add("select");
+    console.log(selectOption);
+    label.appendChild(selectOption);
+    console.log(containerDiv);
+    
+    
+    let inputText = document.createElement("input");
+    inputText.type = "text";
+    inputText.id = "input-text";
+    inputText.value = "";
+    inputText.placeholder = "search";
+    inputText.classList.add("ml-20");
+    label.appendChild(inputText);
+    
+    console.log(containerDiv);
+
+}
 
 
-let inputText = document.createElement("input");
-inputText.type = "text";
-inputText.id = "input-text";
-inputText.value = "";
-inputText.placeholder = "search";
-inputText.classList.add("ml-20");
-label.appendChild(inputText);
 
-console.log(containerDiv);
 
 
 function armarSelect(arrayPeliculas){//arrayPeliculas seria data.movies pero como no puedo poner data.movies como parametro le pongo un nombre que lo represente que seria arrayPeliculas
@@ -362,12 +386,12 @@ let callBackEventSelect = (evento) =>{
 
 
 let selectOpciones = document.querySelector(".select");
-selectOpciones.addEventListener("input",callBackEventSelect);
+// selectOpciones.addEventListener("input",callBackEventSelect);
 
 
 
 let buscarPelis = document.getElementById("input-text");
-buscarPelis.addEventListener("input",callBackEventSelect);
+// buscarPelis.addEventListener("input",callBackEventSelect);
 
 
 
@@ -454,11 +478,13 @@ function filtrarPeliculasPorNombre(nombre,array) {
 
 
 
+    // export   {fetchMovies} ;
 
 
 
 
-
+// Exporta la función fetchMovies para que pueda ser importada en otros archivos
+export { fetchMovies ,allMovies};
 
 
 

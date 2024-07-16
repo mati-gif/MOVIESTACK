@@ -1,26 +1,35 @@
+
+
+import { fetchMovies , allMovies} from "../js/main.js";
+
+
 const urlParams = new URLSearchParams(window.location.search); //URLSearchParams es una interfaz que permite trabajar con los parámetros de búsqueda de una URL. windowsLocationSearch es la cadena de consulta de la url acytual, devuelve todo lo que sigue despues del "?".
-    const movieId = urlParams.get('id');// con el metodo get se obtiene el valor del parametro especificado osea el id.
+const movieId = urlParams.get('id');// con el met
 
-    console.log(movieId);
+console.log(movieId);
+
+let arrayPeliculas ;
+
+fetchMovies().then(data => {
+    console.log(data); // Aquí puedes acceder al valor resuelto de fetchMovies()
+    console.log(allMovies); // Aquí puedes acceder a allMovies después de que se haya resuelto la promesa
+	let peliculaFiltrada = allMovies.find(item => item.id === movieId)
+	createDetailsCard(peliculaFiltrada)
+}).catch(error => {
+    console.error('Error fetching movies:', error);
+});
+
+console.log(arrayPeliculas);
 
 
-function peliculaFiltrada(movieId){//este parametro es un identificador  que se espera que coincida con el campo id de uno de los objetos en el array data
-
-    let peliculaDetalle = data.find(item => item.id === movieId) ;// el metodo find me trae el primer objeto que cumpla con la condicion.Recorre todas las peliculas comparando con el id que traigo por el urlSearchParams.
-    createDetailsCard(peliculaDetalle);// peliculaDetalle es un array que contiene solo un objeto.le pasa como argumento el primer elemento del arrya pelicula detalle.
-    console.log(peliculaDetalle);
-	
-}
-
-peliculaFiltrada(movieId);
 
 
 function createDetailsCard(peliculaDetalle){//este paraemtro es un objeto que contiene el detalle de las peliculas.
     let contenedorDetalle = document.getElementById("detail_container");
     
-
+console.log(peliculaDetalle);
 let card = `<div class=" m-auto  mt-5 mb-10  flex flex-col  justify-evenly w-96  text-center  ">
-    <img src =${peliculaDetalle.image} class="h-64 w-96 object-cover  sm: w-60 h-28"  alt = ${peliculaDetalle.title}/>
+    <img src ="https://moviestack.onrender.com/static/${peliculaDetalle.image}" class="h-64 w-96 object-cover  sm: w-60 h-28"  alt = ${peliculaDetalle.title}/>
     
 
 	<table class=" bg-white rounded-lg shadow-md ">
