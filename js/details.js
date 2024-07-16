@@ -113,7 +113,6 @@ let tablas  =  `<div class=" m-auto border-black border-2 mt-5  mb-10   flex fle
 
 
 
-/* <div class="flex flex-col h-auto w-4/5  item-center justify-start border-black border-2 bg-green-400">    </div> */
 
 
 

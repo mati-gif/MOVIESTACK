@@ -1,65 +1,19 @@
 
-
-
-
-
-
-
-
-
-
 let divCreado = document.getElementById("container_card");
 
 
-// function createCards(id,title,image,tagline,overview){
 
-//     let card = `
-//     <div class=" border-black border-2  m-5 h-auto flex flex-col items-center justify-beetwen w-80 text-center bg-violet-200  sm: w-4/6 h-5/6">
-    
-//     <a href="./detail.html?id=${id}"  ><img src =${image} class="h-40 w-80 object-cover  sm: w-60 h-28"  alt = ${title}/>
-//     <h4 class=" font-bold">${title}</h4>
-//     <p class="p-2 text-xs font-bolder sm: p-1">
-//     ${tagline}
-//     </p>
-//     <p class="p-3 text-xs font-bolder sm: p-1">
-//     ${overview}
-//     </p> 
-//     </a>
-//     <div class="flex justify-center bg-green-200 w-14 border-black border-[3px]  mt-auto hover:bg-gray-800  hover: border-black hover:border-2 hover:text-gray-50 active:bg-gray-800  active:text-gray-50">
-    
-//     <button id="button" class="text-4xl" >♡</button>
-//     </div> 
-//     </div>
-
-//     `
-
-//     return card;
-
-// }
-
-
-// function addCards(arrayPeliculas){
-
-
-//     divCreado.innerHTML = '';
-
-//     let respuesta = "" ;
-//     arrayPeliculas.forEach(item => {
-//         respuesta += createCards(item.id,item.title,item.image,item.tagline,item.overview);
-
-    
-
-    
-
-//     });
-//     divCreado.innerHTML +=  respuesta;
-
-
-// }
 const API_KEY = '0ff70d54-dc0b-4262-9c3d-776cb0f34dbd';
 
 
-
+let favoriteButton = document.querySelector('.button');
+    if (favoriteButton) {
+        favoriteButton.addEventListener('click', function() {
+            let peliculaId = this.value
+            console.log('ID de la película seleccionada:', peliculaId);
+            // Aquí puedes realizar las acciones adicionales con el ID de la película
+        });
+    }
 
 function createCards(peliculas) {
 
@@ -78,7 +32,7 @@ function createCards(peliculas) {
         </a>
         <div class="flex justify-center bg-green-200 w-14 border-black border-[3px]  mt-auto hover:bg-gray-800  hover: border-black hover:border-2 hover:text-gray-50 active:bg-gray-800  active:text-gray-50">
         
-        <button id="button" class="text-4xl" >♡</button>
+        <button value=${peliculas.id}  class="button text-4xl" >♡</button>
         </div> 
         </div>
     
@@ -92,29 +46,13 @@ function createCards(peliculas) {
 }
 
 
-// function callBackFavorite(idMovie){
-// console.log(idMovie);
 
 
-// }
-
-
-// let botonLike = document.getElementById("button");
-// console.log(botonLike);
-// botonLike.addEventListener("click",callBackFavorite);
-
-
-
-
-// function handleLike(peliculaDetalle) {
-//     console.log(`Película ${peliculaDetalle.title} ha sido likeada!`);
-//     // Aquí puedes añadir lógica para incrementar un contador de likes, almacenar en el backend, etc.
-// }
 
 let allMovies;
 
 // Función para obtener las películas desde la API
- function fetchMovies() {
+    function fetchMovies() {
     return  fetch('https://moviestack.onrender.com/api/movies', {
         method: 'GET',
         headers: {
@@ -141,16 +79,6 @@ fetchMovies();
 
 
 
-
-
-function allMoviesExport(){
-
-    console.log("holaaaaaa desde allmovies ");
-    // return allMovies
-}
-
-
-
 function addCards(arrayPeliculas) {
     // let divCreado = document.getElementById("container_card");
     divCreado.innerHTML = '';
@@ -164,38 +92,6 @@ function addCards(arrayPeliculas) {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//forma 1 : usar el bucle for para recorrer todo el array de peliculas.
-// for(let i = 0; i < data.length ;i++ ){
-
-
-//     let respuesta = createCards(data[i].title,data[i].image,data[i].tagline,data[i].overview);
-
-//     divCreado.innerHTML += respuesta;// estoy agregando al nuevo div lo que hay en la funcion createCards
-    
-
-// }
 
 
 //forma2: crear una funcion que recibe un parametro (el array de peliculas) que adentro tenga un forEach() que tambien va a recorrer el array de peliculas y va a devolver la tarjeta solo con las propiedadess que le estoy pasando en el foreach .
@@ -282,7 +178,6 @@ function armarSelect(arrayPeliculas){//arrayPeliculas seria data.movies pero com
 
 }
 
-console.log("comentario sprint 3");
 
 
 
@@ -295,23 +190,6 @@ console.log("comentario sprint 3");
 
 
 // console.log(new Set (capturarGeneros.flat())); //el metodo flat() une todos los arrays en uno solo, mientras que el metodo newSet no perimite elementos repeidos dentro de un array.
-
-
-
-
-
-//forma1:(no prestarle atencion porque probablemente esta mal)
-// function createOptions(genero,valor){
-
-// let option = `
-//  <option value =${valor} >${genero}</option>
-
-// `
-// return option
-
-// }
-
-
 
 
 
@@ -356,7 +234,7 @@ let callBackEventSelect = (evento) =>{
     // let select = evento.target.value; // obtiene el valor del genero seleccionado.
     console.log(allMovies);
     let arrayFiltrado = allMovies; // inicializa el array filtrado con todos los datos de las peliculas.
-    let arrayFiltradoPorGenero = filtrarPeliculasPorGenero(selectOption.value,arrayFiltrado); //filtra las peliculas por el genero seleccionado.
+    let arrayFiltradoPorGenero = filtrarPeliculasPorGenero(selectOpciones.value,arrayFiltrado); //filtra las peliculas por el genero seleccionado.
     let arrayFiltradoPorNombre = filtrarPeliculasPorNombre(buscarPelis.value,arrayFiltradoPorGenero);  // Filtra las películas filtradas por género según el nombre de la película 
     addCards(arrayFiltradoPorNombre);
     mostrarMensajeSiNoHayPeliculas(arrayFiltradoPorNombre);
@@ -382,16 +260,23 @@ let callBackEventSelect = (evento) =>{
 
 // }
 
-
-
-
 let selectOpciones = document.querySelector(".select");
-// selectOpciones.addEventListener("input",callBackEventSelect);
 
+if(selectOpciones ){
+
+selectOpciones.addEventListener("input",callBackEventSelect);
+
+}
 
 
 let buscarPelis = document.getElementById("input-text");
-// buscarPelis.addEventListener("input",callBackEventSelect);
+
+if(buscarPelis !== null ){
+
+    buscarPelis.addEventListener("input",callBackEventSelect);
+
+
+}
 
 
 
@@ -478,7 +363,6 @@ function filtrarPeliculasPorNombre(nombre,array) {
 
 
 
-    // export   {fetchMovies} ;
 
 
 
