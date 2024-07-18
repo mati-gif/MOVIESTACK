@@ -46,7 +46,7 @@ let estaLikeado = isLiked(peliculas.id);// estoy llamando a la funcion isLiked y
         </a>
         <div class="flex justify-center  w-12 border-black border-[3px]  mt-auto   hover: border-black hover:border-2 hover:text-gray-50 ">
         <button data-vote="true" data-id="${peliculas.id}"  class="${estaLikeado ? "bg-orange-500 hover:bg-orange-700" : "bg-green-200 hover:bg-gray-700"} text-white font-bold py-2 px-4  text-black"  >♡</button>
-        
+
         </div> 
         </div>
     
@@ -56,6 +56,8 @@ let estaLikeado = isLiked(peliculas.id);// estoy llamando a la funcion isLiked y
 //data-id="${peliculas.id}" =====> se usa para guardar el id de la pelicula que corresponde a la pelicula.
 //son atributos de datos personalizados en html y permiten almacenar información adicional en los elementos HTML sin necesidad de usar clases o id. 
 
+
+//dentro del ternario digo: si estaLikeado = "true" (si el id seleccionado se encuentra dentro del arrayFavoritos)
 
 }
 
@@ -93,7 +95,7 @@ let allMovies;
     })
     .then(response => response.json())//se maneja la respuesta del fetch y luego  se convierte en formato json.
     .then(data => {
-        allMovies = data.movies; // Asigna data.movies a la variable global allMovies
+        allMovies = data.movies; // Asigna data.movies a la variable global allMovies . Data es un objeto que tiene una propiedad llamada movies
         armarSelect(data.movies); // Ejemplo de función que utiliza allMovies
         addCards(data.movies); // Ejemplo de función que utiliza allMovies
         divCreado.addEventListener("click", (evento) => verifyButtonAndFavorite(evento,allMovies));
@@ -123,7 +125,7 @@ let allMovies;
 
 
 //  maneja eventos de click en botones dentro de las tarjetas de películas.
-
+//y  actualizar el estado de favorito de la película correspondiente.
 function verifyButtonAndFavorite(evento,data){
 
     let esBotonLike = evento.target.dataset.vote; //accede al atributo data-vote
@@ -133,7 +135,16 @@ console.log(esBotonLike);
 console.log(idPeliculas);
 
     if(esBotonLike){ //si esBotonLike es verdadero 
-        toggleFavorites(idPeliculas)//llama a la funcion toggleFavorites que recibe como argumento el idPeliculas que cambia el estado de favorito
+        toggleFavorites(idPeliculas)//llama a la funcion toggleFavorites que recibe como argumento el idPeliculas 
+        //que cambia el estado de favorito de la pelicula con el id dado.Es decir si la pelicula esta marcada como favorita
+        //la funcion la desmarca (es decir la elimina de la lista de favoritos)y si no esta marcada la va a marcar como favorita.
+
+
+
+        let boton = evento.target;
+        console.log(boton);
+        toggleBoton(boton) //llama a la funcion toggleBoton pasadno el boton como argumetno y cambia el backGround del mismo.
+
         // let movie = data.find(item => item.id === idPeliculas)
         // let card = createCards(movie);
 
@@ -146,9 +157,7 @@ console.log(idPeliculas);
         // divCreado.replaceWith(card)
         // addCards(data);
 
-        let boton = evento.target;
-        console.log(boton);
-        toggleBoton(boton)
+
 
     }
 
@@ -169,9 +178,8 @@ function toggleBoton(boton){
 //verifica si un id especifico esta presente dentro de arrayFavoritos
 function isLiked(id){
 
-    return arrayFavoritos.includes(id);//Retorna true si el id está dentro del array arrayFavoritos, indicando que el id está marcado como favorito. sino retorna false
+    return arrayFavoritos.includes(id);//Retorna true si el id seleccionado está dentro del array arrayFavoritos, indicando que el id está marcado como favorito. sino retorna false
 }
-
 
 
 
