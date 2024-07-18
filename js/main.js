@@ -1,24 +1,38 @@
 
-let divCreado = document.getElementById("container_card");
 
 
 
 const API_KEY = '0ff70d54-dc0b-4262-9c3d-776cb0f34dbd';
 
+let divCreado = document.getElementById("container_card");
+console.log(divCreado);
 
-let favoriteButton = document.querySelector('.button');
-    if (favoriteButton) {
-        favoriteButton.addEventListener('click', function() {
-            let peliculaId = this.value
-            console.log('ID de la película seleccionada:', peliculaId);
-            // Aquí puedes realizar las acciones adicionales con el ID de la película
-        });
-    }
+
+//esto sirve para manejar un array de favoritos en el localStorage.
+let arrayFavoritos;
+
+if(localStorage.getItem("favoritos")){ //verifica si existe un item con esta key en localStorage : osea si en el local storage hay una key con el nombre favoritos devolveme el valor de esa clave
+
+    arrayFavoritos = JSON.parse(localStorage.getItem("favoritos")); //si existe un item con esa key guardame en arrayFavoritos el parseo de lo que esta en esa key.
+//es decur si existe la key "favoritos" en el localStorage se obtiene su valor (que es un strin json) y luego se convierte otra vez en un array usando JSON.parse y se guarda en arrayFavoritos.
+} else{
+
+    arrayFavoritos = [] ; // si no guardame en arrayFavoritos un array vacio.
+}
+
+console.log(arrayFavoritos);
+
+
+
+
+
+
+//esta funcion toma como parametro un objeto peliculas y crea en html la estructura de la carta.
 
 function createCards(peliculas) {
 
-
-    let card = `
+let estaLikeado = isLiked(peliculas.id);// estoy llamando a la funcion isLiked y le paso como argumento el id de la pelicula que despues lo uso para determinar si esta marcado el boton o no.
+    return  `
         <div class=" border-black border-2  m-5 h-auto flex flex-col items-center justify-beetwen w-80 text-center bg-violet-200  sm: w-4/6 h-5/6">
         
         <a href="./detail.html?id=${peliculas.id}"  ><img src ="https://moviestack.onrender.com/static/${peliculas.image}" class="h-40 w-80 object-cover  sm: w-60 h-28"  alt = ${peliculas.title}/>
@@ -30,20 +44,39 @@ function createCards(peliculas) {
         ${peliculas.overview}
         </p> 
         </a>
-        <div class="flex justify-center bg-green-200 w-14 border-black border-[3px]  mt-auto hover:bg-gray-800  hover: border-black hover:border-2 hover:text-gray-50 active:bg-gray-800  active:text-gray-50">
+        <div class="flex justify-center  w-12 border-black border-[3px]  mt-auto   hover: border-black hover:border-2 hover:text-gray-50 ">
+        <button data-vote="true" data-id="${peliculas.id}"  class="${estaLikeado ? "bg-orange-500 hover:bg-orange-700" : "bg-green-200 hover:bg-gray-700"} text-white font-bold py-2 px-4  text-black"  >♡</button>
         
-        <button value=${peliculas.id}  class="button text-4xl" >♡</button>
         </div> 
         </div>
     
         `
     
-
-
-        return card;
+//data-vote="true" ====> se usa para guardar un valor relacionada con el boton de like,osea despues muestro lo que aparece en consola cuando apreto el boton.
+//data-id="${peliculas.id}" =====> se usa para guardar el id de la pelicula que corresponde a la pelicula.
+//son atributos de datos personalizados en html y permiten almacenar información adicional en los elementos HTML sin necesidad de usar clases o id. 
 
 
 }
+
+
+
+
+
+
+//toma una rray de objetos de peliclas llamado arraPeliculas (que es el parametro de la fucnion) y genera tarjetas html
+function addCards(arrayPeliculas) {
+    // let divCreado = document.getElementById("container_card");
+    
+    divCreado.innerHTML = '';
+    let respuesta = "";
+    console.log(arrayPeliculas);
+    arrayPeliculas.forEach(item => {// Se utiliza forEach para iterar sobre cada objeto de película en arrayPeliculas
+        respuesta += createCards(item); //el html generado por createCards se concatena a la variable respuesta.
+    });
+    divCreado.innerHTML += respuesta;
+}
+
 
 
 
@@ -51,45 +84,115 @@ function createCards(peliculas) {
 
 let allMovies;
 
-// Función para obtener las películas desde la API
-    function fetchMovies() {
-    return  fetch('https://moviestack.onrender.com/api/movies', {
+    
+    fetch('https://moviestack.onrender.com/api/movies', {// realiza una soliocitud a la url de la api
         method: 'GET',
         headers: {
             'x-api-key': '0ff70d54-dc0b-4262-9c3d-776cb0f34dbd'
         }
     })
-    .then(response => response.json())
+    .then(response => response.json())//se maneja la respuesta del fetch y luego  se convierte en formato json.
     .then(data => {
         allMovies = data.movies; // Asigna data.movies a la variable global allMovies
         armarSelect(data.movies); // Ejemplo de función que utiliza allMovies
         addCards(data.movies); // Ejemplo de función que utiliza allMovies
-        return allMovies; // Retorna el array de películas
+        divCreado.addEventListener("click", (evento) => verifyButtonAndFavorite(evento,allMovies));
+
+        //cuando eñ usuario hace click en un botón dentro de una tarjeta generada por addCards, se activa el evento.
+        //la funcion verifyButtonAndFavorite maneja el evento deterimando si se trata de un boton de tipo like (data-id)
+
+
+
+        // let peliculas = allMovies.map(item => item.id)
+        // localStorage.setItem("favoritos",JSON.stringify(peliculas));
+        // console.log(JSON.stringify(peliculas));
+
+        console.log(allMovies);
+
     })
     .catch(error => {
         console.warn(error); // Manejo de errores
         return []; // Retorna un array vacío en caso de error
     });
+
+
+
+//EJEMPLO DE COMO SE USA GETITEM
+// let peliculasEnFavoritos = localStorage.getItem("favoritos")
+// console.log(JSON.parse(peliculasEnFavoritos));
+
+
+//  maneja eventos de click en botones dentro de las tarjetas de películas.
+
+function verifyButtonAndFavorite(evento,data){
+
+    let esBotonLike = evento.target.dataset.vote; //accede al atributo data-vote
+    let idPeliculas = evento.target.dataset.id; //accede al atributos data-id
+    // evento.target.classList.add("bg-orange-500");
+console.log(esBotonLike);
+console.log(idPeliculas);
+
+    if(esBotonLike){ //si esBotonLike es verdadero 
+        toggleFavorites(idPeliculas)//llama a la funcion toggleFavorites que recibe como argumento el idPeliculas que cambia el estado de favorito
+        // let movie = data.find(item => item.id === idPeliculas)
+        // let card = createCards(movie);
+
+        // let cardAnterior = evento.target.parentElement;
+        // let cardNueva = document.createElement("div");
+
+        // cardNueva.innerHTML = card
+
+
+        // divCreado.replaceWith(card)
+        // addCards(data);
+
+        let boton = evento.target;
+        console.log(boton);
+        toggleBoton(boton)
+
+    }
+
 }
 
-// Llamada a fetchMovies para obtener las películas al cargar el script
-fetchMovies();
 
+function toggleBoton(boton){
 
+    boton.classList.toggle("bg-orange-500");
+    boton.classList.toggle("hover:bg-orange-700");
 
+    boton.classList.toggle("bg-green-200");
+    boton.classList.toggle("hover:bg-green-200");
 
-
-function addCards(arrayPeliculas) {
-    // let divCreado = document.getElementById("container_card");
-    divCreado.innerHTML = '';
-
-    let respuesta = "";
-    console.log(arrayPeliculas);
-    arrayPeliculas.forEach(item => {
-        respuesta += createCards(item);
-    });
-    divCreado.innerHTML = respuesta;
 }
+
+
+//verifica si un id especifico esta presente dentro de arrayFavoritos
+function isLiked(id){
+
+    return arrayFavoritos.includes(id);//Retorna true si el id está dentro del array arrayFavoritos, indicando que el id está marcado como favorito. sino retorna false
+}
+
+
+
+
+
+function toggleFavorites(idPeliculas){
+
+    if(arrayFavoritos.includes(idPeliculas)){ //si ya esta incluido el like que le di, entonces sacamelo
+
+        arrayFavoritos.splice( arrayFavoritos.indexOf(idPeliculas),1 ) //arrayFavoritos.indexOf(idPeliculas) devuelve el índice donde idPeliculas se encuentra en el array
+        console.log(arrayFavoritos);
+    } else{// si no esta inlcuido el like que le di entonces agregamelo.
+
+    arrayFavoritos.push(idPeliculas);
+
+    }
+
+    localStorage.setItem("favoritos",JSON.stringify(arrayFavoritos)) //se actualiza el localStorage con con el nuevo contenido de arrayFavoritos y  JSON.stringify(arrayFavoritos) convierte arrayFavoritos a una string JSON antes de almacenarlo en el localStorage.
+}
+
+
+
 
 
 
@@ -98,23 +201,23 @@ function addCards(arrayPeliculas) {
 
 
 
-
-
 // addCards(data);
 console.log(divCreado);
-if(divCreado !== null){
 
 divCreado.classList.add("flex","justify-center","flex-wrap")       
 console.log(divCreado);
 
-}
+
 
 
 //---creando los option y los imput---//
-
 let containerDiv = document.querySelector(".container_div");
 let label = document.getElementById("label");
-// containerDiv.classList.add("flex","justify-center");
+
+
+    containerDiv.classList.add("flex","justify-center");
+
+
 // containerDiv.innerHTML = "<label> Filtrar:</label>"
 
 if(containerDiv && label){
@@ -235,7 +338,7 @@ let callBackEventSelect = (evento) =>{
     console.log(allMovies);
     let arrayFiltrado = allMovies; // inicializa el array filtrado con todos los datos de las peliculas.
     let arrayFiltradoPorGenero = filtrarPeliculasPorGenero(selectOpciones.value,arrayFiltrado); //filtra las peliculas por el genero seleccionado.
-    let arrayFiltradoPorNombre = filtrarPeliculasPorNombre(buscarPelis.value,arrayFiltradoPorGenero);  // Filtra las películas filtradas por género según el nombre de la película 
+    let arrayFiltradoPorNombre = filtrarPeliculasPorNombre(buscarPelis.value.toLowerCase(),arrayFiltradoPorGenero);  // Filtra las películas filtradas por género según el nombre de la película 
     addCards(arrayFiltradoPorNombre);
     mostrarMensajeSiNoHayPeliculas(arrayFiltradoPorNombre);
 
@@ -262,21 +365,18 @@ let callBackEventSelect = (evento) =>{
 
 let selectOpciones = document.querySelector(".select");
 
-if(selectOpciones ){
 
 selectOpciones.addEventListener("input",callBackEventSelect);
 
-}
 
 
 let buscarPelis = document.getElementById("input-text");
 
-if(buscarPelis !== null ){
 
     buscarPelis.addEventListener("input",callBackEventSelect);
 
 
-}
+
 
 
 
@@ -363,12 +463,10 @@ function filtrarPeliculasPorNombre(nombre,array) {
 
 
 
+// export default { createCards,addCards}
 
 
 
-
-// Exporta la función fetchMovies para que pueda ser importada en otros archivos
-export { fetchMovies ,allMovies};
 
 
 

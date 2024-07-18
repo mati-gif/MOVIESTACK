@@ -1,6 +1,29 @@
 
+const API_KEY = '0ff70d54-dc0b-4262-9c3d-776cb0f34dbd';
 
-import { fetchMovies , allMovies} from "../js/main.js";
+
+fetch('https://moviestack.onrender.com/api/movies', {
+	method: 'GET',
+	headers: {
+		'x-api-key': '0ff70d54-dc0b-4262-9c3d-776cb0f34dbd'
+	}
+})
+.then(response => response.json())
+.then(data => {
+	let allMovies = data.movies; // Asigna data.movies a la variable global allMovies
+	let peliculaFiltrada = allMovies.find(item => item.id === movieId)
+	createDetailsCard(peliculaFiltrada);
+	// crearTabla()
+
+
+})
+.catch(error => {
+	console.warn(error); // Manejo de errores
+	return []; // Retorna un array vacío en caso de error
+});
+
+
+
 
 
 const urlParams = new URLSearchParams(window.location.search); //URLSearchParams es una interfaz que permite trabajar con los parámetros de búsqueda de una URL. windowsLocationSearch es la cadena de consulta de la url acytual, devuelve todo lo que sigue despues del "?".
@@ -8,18 +31,7 @@ const movieId = urlParams.get('id');// con el met
 
 console.log(movieId);
 
-let arrayPeliculas ;
 
-fetchMovies().then(data => {
-    console.log(data); // Aquí puedes acceder al valor resuelto de fetchMovies()
-    console.log(allMovies); // Aquí puedes acceder a allMovies después de que se haya resuelto la promesa
-	let peliculaFiltrada = allMovies.find(item => item.id === movieId)
-	createDetailsCard(peliculaFiltrada)
-}).catch(error => {
-    console.error('Error fetching movies:', error);
-});
-
-console.log(arrayPeliculas);
 
 
 
