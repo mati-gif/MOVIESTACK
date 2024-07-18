@@ -14,7 +14,7 @@ let arrayFavoritos;
 if(localStorage.getItem("favoritos")){ //verifica si existe un item con esta key en localStorage : osea si en el local storage hay una key con el nombre favoritos devolveme el valor de esa clave
 
     arrayFavoritos = JSON.parse(localStorage.getItem("favoritos")); //si existe un item con esa key guardame en arrayFavoritos el parseo de lo que esta en esa key.
-//es decur si existe la key "favoritos" en el localStorage se obtiene su valor (que es un strin json) y luego se convierte otra vez en un array usando JSON.parse y se guarda en arrayFavoritos.
+//es decur si existe la key "favoritos" en el localStorage se obtiene su valor (que es un string json) y luego se convierte otra vez en un array usando JSON.parse y se guarda en arrayFavoritos.
 } else{
 
     arrayFavoritos = [] ; // si no guardame en arrayFavoritos un array vacio.
@@ -175,7 +175,9 @@ function isLiked(id){
 
 
 
-
+//sirve para alternar el estado de favorito de  una pelicula en la lista de favoritos almacenada en localStorage
+//osea esta función permite a los usuarios marcar o desmarcar películas como favoritas, actualizando el localStorage.
+//es decir añade o elimina el id de la pelicula del array arrayfavorites .
 function toggleFavorites(idPeliculas){
 
     if(arrayFavoritos.includes(idPeliculas)){ //si ya esta incluido el like que le di, entonces sacamelo

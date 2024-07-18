@@ -86,7 +86,13 @@ fetch('https://moviestack.onrender.com/api/movies', {
     console.warn(error);
 });
 
-function getFavorites(allMovies) {
+
+
+
+//sirve para  filtrar y mostrar la lista de películas favoritas basándose en los datos de localStorage.
+//permite mostrar solo las películas favoritas de un usuario, recuperándolas del localStorage  y volviendola mostrar en pantalla.
+//recupera la lista de favoritos del localStorage ,filtra las peliculas de allMovies para incluir solo la que estan en favoritos y llama a addCards para mostrarlas
+function getFavorites(allMovies) { //recibe como parametro un array con las peliculas.
     let arrayFavoritos;
 
     if (localStorage.getItem("favoritos")) {
@@ -95,20 +101,30 @@ function getFavorites(allMovies) {
         arrayFavoritos = [];
     }
 
-    let arrayFiltrado = allMovies.filter(movie => arrayFavoritos.includes(movie.id));//La función filter recorre allMovies y selecciona sólo aquellas películas cuyos id están en arrayFavoritos. Es decir, se seleccionan sólo las películas que están marcadas como favoritas
-    addCards(arrayFiltrado);
+    let arrayFiltrado = allMovies.filter(movie => arrayFavoritos.includes(movie.id));//La función filter recorre allMovies y selecciona sólo aquellas películas cuyos id están en arrayFavoritos.
+    // Es decir, se seleccionan sólo las películas que están marcadas como favoritas.
+    addCards(arrayFiltrado);//se llama a la función addCards con el array filtrado de películas favoritas 
 }
 
-function verifyButtonAndFavorite(evento, allMovies) {
+
+//esta función gestiona el evento de click en los botones de like de las películas, alterna el estado de favorito de la película correspondiente y actualiza la lista de películas favoritas en la interfaz de usuario.
+//es decir verifica si el elemento que disparo el evento ( el click) es un boton de favorio
+function verifyButtonAndFavorite(evento, allMovies) {//recibe como parametro el evento que desencadena la funcion y allMovies es un array que contiene todas las peliculas
     let esBotonLike = evento.target.dataset.vote;//accede al atributo data-vote
     let idPelicula = evento.target.dataset.id;//accede al atributos data-id
-
+    console.log(esBotonLike);
+    console.log(idPelicula);
     if (esBotonLike) {
-        toggleFavorites(idPelicula);//llama a la funcion toggleFavorites que recibe como argumento el idPeliculas que cambia el estado de favorito
-        getFavorites(allMovies); // Actualiza la lista de películas favoritas después de cambiar el estado del botón.
+        toggleFavorites(idPelicula);//llama a la funcion toggleFavorites que recibe como argumento el idPeliculas que cambia el estado de favorito de la película (agregando o eliminando su id de la lista de favoritos en localStorage).
+        getFavorites(allMovies); // Actualiza la lista de películas favoritas después de cambiar el estado del botón y las muestra en la interfaz de usuario.
     }
 }
 
+
+
+//sirve para alternar el estado de favorito de  una pelicula en la lista de favoritos almacenada en localStorage
+//osea esta función permite a los usuarios marcar o desmarcar películas como favoritas, actualizando el localStorage.
+//es decir añade o elimina el id de la pelicula del array arrayfavorites .
 function toggleFavorites(idPelicula) {
     let arrayFavoritos;// almacena el array de IDs de películas favoritas.
 
