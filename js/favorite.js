@@ -76,7 +76,7 @@ fetch('https://moviestack.onrender.com/api/movies', {
         'x-api-key': API_KEY
     }
 })
-.then(response => response.json())
+.then(response => response.json())//se maneja la respuesta del fetch y luego  se convierte en formato json.
 .then(data => {
     let allMovies = data.movies;
     getFavorites(allMovies);
@@ -95,22 +95,22 @@ function getFavorites(allMovies) {
         arrayFavoritos = [];
     }
 
-    let arrayFiltrado = allMovies.filter(movie => arrayFavoritos.includes(movie.id));
+    let arrayFiltrado = allMovies.filter(movie => arrayFavoritos.includes(movie.id));//La función filter recorre allMovies y selecciona sólo aquellas películas cuyos id están en arrayFavoritos. Es decir, se seleccionan sólo las películas que están marcadas como favoritas
     addCards(arrayFiltrado);
 }
 
 function verifyButtonAndFavorite(evento, allMovies) {
-    let esBotonLike = evento.target.dataset.vote;
-    let idPelicula = evento.target.dataset.id;
+    let esBotonLike = evento.target.dataset.vote;//accede al atributo data-vote
+    let idPelicula = evento.target.dataset.id;//accede al atributos data-id
 
     if (esBotonLike) {
-        toggleFavorites(idPelicula);
+        toggleFavorites(idPelicula);//llama a la funcion toggleFavorites que recibe como argumento el idPeliculas que cambia el estado de favorito
         getFavorites(allMovies); // Actualiza la lista de películas favoritas después de cambiar el estado del botón.
     }
 }
 
 function toggleFavorites(idPelicula) {
-    let arrayFavoritos;
+    let arrayFavoritos;// almacena el array de IDs de películas favoritas.
 
     if (localStorage.getItem("favoritos")) {
         arrayFavoritos = JSON.parse(localStorage.getItem("favoritos"));
@@ -118,13 +118,14 @@ function toggleFavorites(idPelicula) {
         arrayFavoritos = [];
     }
 
-    if (arrayFavoritos.includes(idPelicula)) {
-        arrayFavoritos = arrayFavoritos.filter(id => id !== idPelicula);
+    if (arrayFavoritos.includes(idPelicula)) {//si idPelicula esta en el arrayFavoritos, es decir si ya esta dado el like
+        // arrayFavoritos = arrayFavoritos.filter(id => id !== idPelicula);
+        arrayFavoritos.splice( arrayFavoritos.indexOf(idPelicula),1 )
     } else {
         arrayFavoritos.push(idPelicula);
     }
 
-    localStorage.setItem("favoritos", JSON.stringify(arrayFavoritos));
+    localStorage.setItem("favoritos", JSON.stringify(arrayFavoritos));//se actualiza el localStorage con con el nuevo contenido de arrayFavoritos y  JSON.stringify(arrayFavoritos) convierte arrayFavoritos a una string JSON antes de almacenarlo en el localStorage.
 }
 
 
